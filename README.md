@@ -30,7 +30,14 @@ batch-app/
 ```
 
 ## Notes
-- Idempotency via natural key (orderId).
-- `@StepScope` reader to inject JobParameters.
-- Skip/Retry configured with sane limits.
-- Test sample with `JobLauncherTestUtils`.
+Idempotencia mediante clave natural (orderId).
+Reprocesar un registro con el mismo orderId no crea duplicados ni cambia el resultado; la clave natural garantiza un efecto único.
+
+Reader con @StepScope para inyectar JobParameters.
+El lector se crea por step y puede recibir parámetros del job (ej. file, fechas) en tiempo de ejecución.
+
+Skip/Retry configurados con límites razonables.
+Definimos qué errores se saltan (skip) y cuáles se reintentan (retry), con topes para evitar loops o fallas interminables.
+
+Prueba de ejemplo con JobLauncherTestUtils.
+Permite lanzar el job/step en tests y verificar que termine en COMPLETED, cuántos ítems leyó/escribió, etc.
